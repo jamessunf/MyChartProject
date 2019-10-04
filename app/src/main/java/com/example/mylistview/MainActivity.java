@@ -1,126 +1,49 @@
 package com.example.mylistview;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
+import android.os.Bundle;
+import android.widget.ListView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import java.util.LinkedList;
+
 
 public class MainActivity extends AppCompatActivity {
-
-    ListView listview;
-    String msg[] = {"receive 1","send 1","receive 2","send 2","send 3","receive 3","receive 4"};
-    int t[] = {1,2,1,2,2,1,1};
-
-    //lab 4 update
-
+    private ListView listView;
+    private LinkedList<FriendInfo> friends;
+    private ListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView listview = (ListView) findViewById(R.id.list_chart);
-
-       ReceiverAdapter adpt = new ReceiverAdapter(this,t,msg);
-        //MyAdapter adpt = new MyAdapter(this,t,msg);
-
-       // ArrayAdapter<String> adpt = new ArrayAdapter<String>(this,R.layout.row_send,msg);
-        listview.setAdapter(adpt);
-
-
+        listView = (ListView)findViewById(R.id.list_chart);
+        setData();
+        setListViewAdapter();
     }
 
-
-
-   public class ReceiverAdapter extends ArrayAdapter<String> {
-
-        Context context;
-        String rMsg[];
-        int rt[];
-
-
-         ReceiverAdapter(Context c,int t[], String msg[]) {
-
-             super(c,R.layout.row_receiver,R.id.txt_send,msg);
-
-             this.context = c;
-             this.rMsg = msg;
-             this.rt = t;
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
-            View row;
-
-
-
-       //   if(t[position] == 1)
-              row = layoutInflater.inflate(R.layout.row_send,parent, false);
-         // else
-           //  row = layoutInflater.inflate(R.layout.row_send,parent, false);
-
-
-            ImageView images = row.findViewById(R.id.img_receiver);
-            TextView message = row.findViewById(R.id.txt_receiver);
-
-            images.setImageResource(R.drawable.row_receive);
-
-            message.setText(rMsg[position]);
-
-
-
-
-
-            return row;
-        }
-
-
-   }
-
-
-    public class SendAdapter extends ArrayAdapter<String>{
-
-        Context context;
-        String rMsg[];
-        int rt[];
-
-
-        SendAdapter(Context c,int t[], String msg[]) {
-            super(c,R.layout.row_send,R.id.txt_send,msg);
-
-            this.context = c;
-            this.rMsg = msg;
-            this.rt = t;
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            View row = layoutInflater.inflate(R.layout.row_send,parent, false);
-            ImageView images = row.findViewById(R.id.img_send);
-            TextView message = row.findViewById(R.id.txt_send);
-
-            images.setImageResource(R.drawable.row_send);
-            message.setText(rMsg[position]);
-
-
-            return row;
-        }
+    private void setListViewAdapter() {
+        adapter = new ListViewAdapter(this, R.layout.row_send, friends);
+        listView.setAdapter(adapter);
     }
+
+    //set "demo" data for list view adapter
+    private void setData() {
+        friends = new LinkedList<FriendInfo>();
+
+        friends.add(new FriendInfo("Hello", false));
+        friends.add(new FriendInfo("Hello!", true));
+        friends.add(new FriendInfo("How are you?", true));
+        friends.add(new FriendInfo("I'm fine", false));
+        friends.add(new FriendInfo("The weather is great", true));
+        friends.add(new FriendInfo("it is", false));
+        friends.add(new FriendInfo("Are you go home?", true));
+         friends.add(new FriendInfo("No, I'm going to school", true));
+        friends.add(new FriendInfo("great", false));
+        friends.add(new FriendInfo("see you", false));
+         friends.add(new FriendInfo("baby", true));
+    }
+
 }
