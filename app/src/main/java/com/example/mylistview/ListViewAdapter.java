@@ -19,18 +19,6 @@ public class ListViewAdapter extends ArrayAdapter<FriendInfo> {
         this.activity = activity;
     }
 
-    @Override
-    public int getViewTypeCount() {
-        // return the total number of view types. this value should never change
-        // at runtime
-        return 2;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        // return a value between 0 and (getViewTypeCount - 1)
-        return position % 2;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -41,16 +29,18 @@ public class ListViewAdapter extends ArrayAdapter<FriendInfo> {
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         int layoutResource = 0; // determined by view type
-        int viewType = getItemViewType(position);
-        switch (viewType) {
-            case 0:
-                layoutResource = R.layout.row_receiver;
-                break;
+     //   int viewType = getItemViewType(position);
+        if(getItem(position).isSender()){
 
-            case 1:
-                layoutResource = R.layout.row_send;
-                break;
+            layoutResource = R.layout.row_receiver;
+
+        }else{
+
+            layoutResource = R.layout.row_send;
+
         }
+
+
 
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
@@ -61,23 +51,23 @@ public class ListViewAdapter extends ArrayAdapter<FriendInfo> {
         }
 
         // set data to views
-        if (getItem(position).isGender()) {
-            holder.gender.setImageResource(R.drawable.row_receive);
+        if (getItem(position).isSender()) {
+            holder.sender.setImageResource(R.drawable.row_send);
         } else {
-            holder.gender.setImageResource(R.drawable.row_send);
+            holder.sender.setImageResource(R.drawable.row_receive);
         }
-        holder.name.setText(getItem(position).getName());
+        holder.massage.setText(getItem(position).getName());
 
         return convertView;
     }
 
     private class ViewHolder {
-        private ImageView gender;
-        private TextView name;
+        private ImageView sender;
+        private TextView massage;
 
         public ViewHolder(View v) {
-            gender = (ImageView) v.findViewById(R.id.img_show);
-            name = (TextView) v.findViewById(R.id.txt_msg);
+            sender = (ImageView) v.findViewById(R.id.img_show);
+            massage = (TextView) v.findViewById(R.id.txt_msg);
         }
     }
 
