@@ -61,6 +61,9 @@ public class ListViewAdapter extends ArrayAdapter<FriendInfo> {
         return convertView;
     }
 
+
+
+
     private class ViewHolder {
         private ImageView sender;
         private TextView massage;

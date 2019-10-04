@@ -2,6 +2,9 @@ package com.example.mylistview;
 
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +14,8 @@ import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
+    private Button btnSend,btnReceiver;
+    private EditText msgInput;
     private LinkedList<FriendInfo> friends;
     private ListViewAdapter adapter;
 
@@ -19,9 +24,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnSend = (Button) findViewById(R.id.btn_send);
+        btnReceiver = (Button) findViewById(R.id.btn_receiver);
+        msgInput = (EditText) findViewById(R.id.msg_input);
+
         listView = (ListView)findViewById(R.id.list_chart);
-        setData();
+        //setData();
+        friends = new LinkedList<FriendInfo>();
         setListViewAdapter();
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                friends.add(new FriendInfo(msgInput.getText().toString(), true));
+                setListViewAdapter();
+                msgInput.setText("");
+            }
+        });
+        btnReceiver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                friends.add(new FriendInfo(msgInput.getText().toString(), false));
+                setListViewAdapter();
+                msgInput.setText("");
+            }
+        });
+
+
     }
 
     private void setListViewAdapter() {
@@ -29,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    //set "demo" data for list view adapter
+    /*set "demo" data for list view adapter
     private void setData() {
         friends = new LinkedList<FriendInfo>();
 
@@ -44,6 +73,6 @@ public class MainActivity extends AppCompatActivity {
         friends.add(new FriendInfo("great", false));
         friends.add(new FriendInfo("see you", false));
          friends.add(new FriendInfo("baby", true));
-    }
+    }*/
 
 }
