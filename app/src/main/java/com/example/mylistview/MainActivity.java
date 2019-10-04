@@ -18,8 +18,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     ListView listview;
-    String msg[] = {"receive 1","send 1","receive 2","send 2"};
-    int img[] = {R.drawable.row_receive,R.drawable.row_send,R.drawable.row_receive,R.drawable.row_send};
+    String msg[] = {"receive 1","send 1","receive 2","send 2","send 3","receive 3","receive 4"};
+    int t[] = {1,2,1,2,2,1,1};
 
     //lab 4 update
 
@@ -31,25 +31,31 @@ public class MainActivity extends AppCompatActivity {
 
         ListView listview = (ListView) findViewById(R.id.list_chart);
 
-       // MyAdapter adpt = new MyAdapter(this,msg,img);
-       // listview.setAdapter(adpt);
+       ReceiverAdapter adpt = new ReceiverAdapter(this,t,msg);
+        //MyAdapter adpt = new MyAdapter(this,t,msg);
+
+       // ArrayAdapter<String> adpt = new ArrayAdapter<String>(this,R.layout.row_send,msg);
+        listview.setAdapter(adpt);
 
 
     }
 
-    class ReceiverAdapter extends ArrayAdapter<String>{
+
+
+   public class ReceiverAdapter extends ArrayAdapter<String> {
 
         Context context;
         String rMsg[];
-        int rImg[];
+        int rt[];
 
 
-         ReceiverAdapter(Context c, String msg[],int img[]) {
+         ReceiverAdapter(Context c,int t[], String msg[]) {
+
              super(c,R.layout.row_receiver,R.id.txt_send,msg);
 
              this.context = c;
-            this.rMsg = msg;
-            this.rImg = img;
+             this.rMsg = msg;
+             this.rt = t;
         }
 
         @NonNull
@@ -57,32 +63,48 @@ public class MainActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View row = layoutInflater.inflate(R.layout.row_receiver,parent, false);
-            ImageView images = row.findViewById(R.id.img_send);
-            TextView message = row.findViewById(R.id.txt_send);
 
-            images.setImageResource(rImg[position]);
+            View row;
+
+
+
+       //   if(t[position] == 1)
+              row = layoutInflater.inflate(R.layout.row_send,parent, false);
+         // else
+           //  row = layoutInflater.inflate(R.layout.row_send,parent, false);
+
+
+            ImageView images = row.findViewById(R.id.img_receiver);
+            TextView message = row.findViewById(R.id.txt_receiver);
+
+            images.setImageResource(R.drawable.row_receive);
+
             message.setText(rMsg[position]);
+
+
+
 
 
             return row;
         }
-    }
 
 
-    class SendAdapter extends ArrayAdapter<String>{
+   }
+
+
+    public class SendAdapter extends ArrayAdapter<String>{
 
         Context context;
         String rMsg[];
-        int rImg[];
+        int rt[];
 
 
-        SendAdapter(Context c, String msg[],int img[]) {
+        SendAdapter(Context c,int t[], String msg[]) {
             super(c,R.layout.row_send,R.id.txt_send,msg);
 
             this.context = c;
             this.rMsg = msg;
-            this.rImg = img;
+            this.rt = t;
         }
 
         @NonNull
@@ -94,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             ImageView images = row.findViewById(R.id.img_send);
             TextView message = row.findViewById(R.id.txt_send);
 
-            images.setImageResource(rImg[position]);
+            images.setImageResource(R.drawable.row_send);
             message.setText(rMsg[position]);
 
 
