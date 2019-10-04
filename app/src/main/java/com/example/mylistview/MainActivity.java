@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     String msg[] = {"receive 1","send 1","receive 2","send 2"};
     int img[] = {R.drawable.row_receive,R.drawable.row_send,R.drawable.row_receive,R.drawable.row_send};
 
+    //lab 4 update
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
